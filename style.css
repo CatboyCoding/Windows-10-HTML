@@ -1,10 +1,10 @@
-@import url(https://pro.fontawesome.com/releases/v5.13.1/css/all.css);
-
 body {
     margin: 0;
-    padding-left: 60px;
-    padding-top: 40px;
-    height: calc(100vh - 80px);
+    height: 100vh;
+
+    overflow: hidden;
+    overflow-anchor: none;
+    overscroll-behavior: none;
 
     background: url(img/bg.jpg) no-repeat center center fixed;
     background-size: cover;
@@ -13,6 +13,9 @@ body {
 }
 
 .window {
+    z-index: 1;
+    overflow-anchor: none;
+
     width: 979px;
     height: 512px;
     background: black;

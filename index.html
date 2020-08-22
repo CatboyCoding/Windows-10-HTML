@@ -12,13 +12,13 @@
         <link rel="preload" href="img/explorer.png" as="image">
         <script>
         $(function() {
-          $(".window").draggable({ handle:'#dragger' });
+          $(".window").draggable({ handle:'#dragger', scroll: false });
         });
         </script>
     </head>
     <body>
         <div id="loading" style="z-index: 100;position: absolute;top: 0;left: 0;width: 100vw;height: 100vh;background: black;"></div>
-        <div class="window">
+        <div class="window" style="position: absolute;top:50px;left:50px;">
             <div class="titlebar">
                 <div class="title" id="dragger">
                     <img src="img/cmd.png" alt="">&nbsp;&nbsp;Command Prompt
