@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Document</title>
+        <link rel="stylesheet" href="style.css">
+        <script src="typed.min.js"></script>
+        <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+        <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+        <link rel="preload" href="img/bg.jpg" as="image">
+        <link rel="preload" href="img/explorer.png" as="image">
+        <script>
+        $(function() {
+          $(".window").draggable({ handle:'#dragger' });
+        });
+        </script>
+    </head>
+    <body>
+        <div id="loading" style="z-index: 100;position: absolute;top: 0;left: 0;width: 100vw;height: 100vh;background: black;"></div>
+        <div class="window">
+            <div class="titlebar">
+                <div class="title" id="dragger">
+                    <img src="img/cmd.png" alt="">&nbsp;&nbsp;Command Prompt
+                </div>
+                <div class="control">
+                    <div class="button minimize">
+                    </div>
+                    <div class="button maximize">
+                    </div>
+                    <div class="button close">
+                    </div>
+                </div>
+            </div>
+            <div class="terminal">
+                <pre>Microsoft Windows [Version 10.0.19041.450]
+(c) 2020 Microsoft Corporation. All rights reserved.
+
+C:\><span id="type"></span><div id="out" style="display: none"><br>C:\Windows\System32\hal.dll Access Denied</div></pre>
+<script>
+    var typed = new Typed('#type', {
+    strings: [""],
+    startDelay: 0,
+    typeSpeed: 0,
+    cursorChar: ' ',
+    autoInsertCss: false,
+});
+</script>
+            </div>
+        </div>
+        <div class="taskbar">
+            <div class="icons">
+                <div class="button start"></div>
+                <div class="button search"></div>
+                <div class="button explorer"></div>
+                <div class="button cmd active"></div>
+            </div>
+            <div class="ac">
+                <div class="icons">
+                    <div class="item">
+                        <div class="icon battery"></div>
+                    </div>
+                    <div class="item">
+                        <div class="icon internet"></div>
+                    </div>
+                    <div class="item">
+                        <div class="icon volume"></div>
+                    </div>
+                </div>
+                <div class="item clock" id="time">1:16 PM</div>
+                <div class="item notifs"></div>
+                <div class="peek"></div>
+            </div>
+        </div>
+        <script>
+            var updateClock = () => {
+                var today = new Date();
+                var ap = (today.getHours() > 12) ? "A" : "M";
+                var h = today.getHours() % 12;
+                var m = ("0"+today.getMinutes()).slice(-2);
+                document.getElementById('time').innerHTML = `${h}:${m} ${ap}M`;
+            }
+            setInterval(updateClock, 100);
+            updateClock();
+            (() => {
+                $("#loading").remove();
+            })();
+        </script>
+    </body>
+</html>

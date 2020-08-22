@@ -1,0 +1,395 @@
+@import url(https://pro.fontawesome.com/releases/v5.13.1/css/all.css);
+
+body {
+    margin: 0;
+    padding-left: 60px;
+    padding-top: 40px;
+    height: calc(100vh - 80px);
+
+    background: url(img/bg.jpg) no-repeat center center fixed;
+    background-size: cover;
+
+    background-repeat: no-repeat;
+}
+
+.window {
+    width: 979px;
+    height: 512px;
+    background: black;
+
+    font-family: 'Segoe UI';
+    font-size: 12.2px;
+
+    color: #fff;
+
+    box-shadow: 0px 0px 5px #000000a0;
+    border: 1px solid rgba(255,255,255,.15);
+}
+
+.titlebar {
+    display: flex;
+    align-items: center;
+    flex: 1;
+
+    height: 32px;
+
+    background: black;
+}
+
+.title:before {
+    display: block;
+    width: 8px;
+    content: '';
+}
+
+.title {
+    width: calc(100% - 8px);
+
+    height: 100%;
+    justify-self: flex-end;
+    align-items: center;
+
+    margin-right: auto;
+    display: flex;
+}
+
+.title, .item, .button {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.control {
+    display: flex;
+    height: 100%;
+    justify-self: flex-end;
+    align-items: center;
+    font-family: 'Segoe MDL2 Assets';
+}
+
+.control > .button {
+    margin: 0;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 45px;
+
+    font-size: 9.5px;
+
+    text-shadow: 0px 0px 1px rgba(255, 255, 255);
+
+    transition: background .1s;
+}
+
+.control > .button.minimize:before {
+    content: '\e738';
+}
+
+.control > .button.maximize:before {
+    content: '\e739';
+}
+
+.control > .button.close:before {
+    content: '\e894';
+}
+
+.control > .button:hover {
+    background: #1A1A1A;
+    cursor: default;
+}
+
+.control > .button.close:hover {
+    background: #E81123;
+}
+
+.terminal {
+    display: flex;
+
+    background: #0C0C0C;
+    color: #C8C8C8;
+
+    height: calc(100% - 32px);
+    min-height: calc(100% - 32px);
+    max-height: calc(100% - 32px);
+
+    font-family: 'Consolas';
+    font-size: 14px;
+
+    overflow-y: scroll;
+}
+
+.terminal::-webkit-scrollbar {
+    width: 17px;
+    padding: 1px;
+    background-color: #171717;
+}
+
+.terminal::-webkit-scrollbar-button:end:decrement,
+.terminal::-webkit-scrollbar-button:start:increment {
+    display: none;
+}
+
+.terminal::-webkit-scrollbar-button:end:increment {
+    background: url(img/dn.png) no-repeat center center;
+}
+
+.terminal::-webkit-scrollbar-button:start:decrement {
+    background: url(img/up.png) no-repeat center center;
+}
+
+.terminal::-webkit-scrollbar-button:end:increment:active {
+    background: url(img/dn_active.png) no-repeat center center;
+}
+
+.terminal::-webkit-scrollbar-button:start:decrement:active {
+    background: url(img/up_active.png) no-repeat center center;
+}
+
+.terminal::-webkit-scrollbar-button {
+    border: 1px solid transparent;
+}
+
+.terminal::-webkit-scrollbar-button:hover {
+    background-color: #373737 !important;
+}
+
+.terminal::-webkit-scrollbar-button:active {
+    background-color: #A6A6A6 !important;
+}
+
+.terminal::-webkit-scrollbar-track,
+.terminal::-webkit-scrollbar-track-piece {
+    background-color: #171717;
+}
+
+.terminal::-webkit-scrollbar-thumb {
+    width: 15px;
+    height: 17px;
+    border: 1px solid #171717;
+    background-color: #4D4D4D;
+}
+
+.terminal::-webkit-scrollbar-thumb:hover {
+    background-color: #7A7A7A;
+}
+
+.terminal>pre {
+    padding: 0;
+    margin: 0;
+    width: 100%;
+    height: 5000px;
+}
+
+@keyframes typedjsBlink {
+
+    0%,
+    49% {
+        opacity: 1;
+    }
+
+    50%,
+    99% {
+        opacity: 0.0;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
+@-webkit-keyframes typedjsBlink {
+
+    0%,
+    49% {
+        opacity: 1;
+    }
+
+    50%,
+    99% {
+        opacity: 0.0;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
+.typed-cursor {
+    opacity: 1;
+    font-size: 12px;
+    box-sizing: border-box;
+    border-bottom: 4px solid #C8C8C8;
+}
+
+.typed-cursor.typed-cursor--blink {
+    animation: typedjsBlink 1s infinite;
+    -webkit-animation: typedjsBlink 1s infinite;
+    animation: typedjsBlink 1s infinite;
+}
+
+.taskbar {
+    position: absolute;
+    display: flex;
+    left: 0;
+    bottom: 0px;
+
+    width: 100%;
+
+    height: 30px;
+    background: rgba(25, 25, 50, .8);
+    color: white;
+}
+
+.taskbar > .icons {
+    display: flex;
+    margin-right: auto;
+}
+
+.taskbar > .icons > .button {
+    width: 36px;
+}
+.taskbar > .icons > .button,
+.taskbar > .ac > .item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    height: 100%;
+}
+
+.taskbar > .icons > .button:not(:last-child),
+.taskbar > .ac > .item:not(:last-child):not(.notifs) {
+    margin-right: 1px;
+}
+
+.taskbar > .icons > .button.start:before {
+    font-family: 'Hololens MDL2 Assets';
+    content: '\e782';
+    font-size: 18px;
+}
+
+.taskbar > .icons > .button.search:before {
+    color: white;
+    font-family: 'Segoe MDL2 Assets';
+    content: '\e71e';
+    transform: scaleX(-1);
+}
+
+.taskbar > .icons > .button.search {
+    margin-right: 2px;
+}
+
+.taskbar > .icons > .button.explorer {
+    background: url(img/explorer.png) no-repeat center center;
+}
+
+.taskbar > .icons > .button.cmd {
+    background: url(img/cmd.png) no-repeat center center;
+}
+
+.taskbar > .icons > .button.active {
+    background-color: rgba(255,255,255,.15);
+    box-sizing: border-box;
+    border-bottom: 2px solid #76B9ED;
+}
+
+.taskbar > .ac {
+    font-family: 'Segoe MDL2 Assets';
+    display: flex;
+    margin-left: auto;
+}
+
+.taskbar > .ac > .clock {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-family: 'Segoe UI';
+    font-size: 12px;
+
+    width: 61px;
+}
+
+.taskbar > .ac > .icons {
+    display: flex;
+    height: 100%;
+    align-items: center;
+}
+
+.taskbar > .ac > .icons > .item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 22px;
+    padding: 1px;
+    height: calc(100% - 2px);
+}
+
+.taskbar > .ac > .icons > .item:last-of-type {
+    margin-right: 0px;
+    padding-right: 0px;
+}
+
+.taskbar > .ac > .icons > .item > .icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    width: 100%;
+}
+
+.taskbar > .ac > .icons > .item > .icon.battery:before {
+    content: '\ecbf';
+}
+
+.taskbar > .ac > .icons > .item > .icon.internet:before {
+    content: '\e701';
+}
+
+.taskbar > .ac > .icons > .item > .icon.volume:before {
+    content: '\e767';
+}
+
+.taskbar > .ac > .icons {
+    margin-right: 1px;
+}
+
+.taskbar > .ac > .icons > .item > .icon,
+.taskbar > .ac > .item,
+.taskbar > .ac > .peek {
+    transition: background-color 0.5s;
+}
+
+.taskbar > .ac > .icons > .item:hover > .icon,
+.taskbar > .ac > .item:hover,
+.taskbar > .ac > .peek:hover,
+.taskbar > .icons > .button:hover {
+    transition: background-color 0.25s;
+    background-color: rgba(255,255,255,.1);
+}
+
+.taskbar > .icons > .button:hover {
+    transition: none;
+}
+
+.taskbar > .icons > .button.active:hover {
+    background-color: rgba(255,255,255,.25);
+}
+
+.taskbar > .ac > .peek {
+    border-left: 1px solid #777F8E;
+    width: 4px;
+}
+
+.taskbar > .ac > .notifs {
+    width: 40px;
+    margin-right: 8px;
+}
+
+.taskbar > .ac > .notifs:before {
+    content: '\e91c';
+}
