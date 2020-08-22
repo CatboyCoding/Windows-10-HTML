@@ -75,7 +75,7 @@ C:\><span id="type"></span><div id="out" style="display: none"><br>C:\Windows\Sy
         <script>
             var updateClock = () => {
                 var today = new Date();
-                var ap = (today.getHours() > 12) ? "A" : "M";
+                var ap = (today.getHours() < 12) ? "A" : "P";
                 var h = today.getHours() % 12;
                 var m = ("0"+today.getMinutes()).slice(-2);
                 document.getElementById('time').innerHTML = `${h}:${m} ${ap}M`;
