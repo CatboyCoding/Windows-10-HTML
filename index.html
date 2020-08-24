@@ -1,90 +1,168 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Document</title>
-        <link rel="stylesheet" href="style.css">
-        <script src="typed.min.js"></script>
-        <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-        <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-        <link rel="preload" href="img/bg.jpg" as="image">
-        <link rel="preload" href="img/explorer.png" as="image">
-        <script>
-        $(function() {
-          $(".window").draggable({ handle:'#dragger', scroll: false });
-        });
-        </script>
-    </head>
-    <body>
-        <div id="loading" style="z-index: 100;position: absolute;top: 0;left: 0;width: 100vw;height: 100vh;background: black;"></div>
-        <div class="window" style="position: absolute;top:50px;left:50px;">
-            <div class="titlebar">
-                <div class="title" id="dragger">
-                    <img src="img/cmd.png" alt="">&nbsp;&nbsp;Command Prompt
-                </div>
-                <div class="control">
-                    <div class="button minimize">
-                    </div>
-                    <div class="button maximize">
-                    </div>
-                    <div class="button close">
-                    </div>
-                </div>
-            </div>
-            <div class="terminal">
-                <pre>Microsoft Windows [Version 10.0.19041.450]
-(c) 2020 Microsoft Corporation. All rights reserved.
 
-C:\><span id="type"></span><div id="out" style="display: none"><br>C:\Windows\System32\hal.dll Access Denied</div></pre>
-<script>
-    var typed = new Typed('#type', {
-    strings: [""],
-    startDelay: 0,
-    typeSpeed: 0,
-    cursorChar: ' ',
-    autoInsertCss: false,
-});
-</script>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="xterm.js"></script>
+    <script src="xterm-addon-fit.js"></script>
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <link rel="preload" href="img/bg.jpg" as="image">
+    <link rel="preload" href="img/explorer.png" as="image">
+    <script>
+        $(function () {
+            $(".window").draggable({
+                handle: '#dragger',
+                scroll: false
+            });
+        });
+    </script>
+</head>
+
+<body>
+    <div id="loading"
+        style="z-index: 100;position: absolute;top: 0;left: 0;width: 100vw;height: 100vh;background: black;"></div>
+    <div class="window" style="position: absolute;top:50px;left:50px;">
+        <div class="titlebar">
+            <div class="title" id="dragger">
+                <img src="img/cmd.png" alt="">&nbsp;&nbsp;Command Prompt
+            </div>
+            <div class="control">
+                <div class="button minimize">
+                </div>
+                <div class="button maximize" onclick="$('.window')[0].requestFullscreen()">
+                </div>
+                <div class="button close" onclick="$('.window').hide();$('.active').removeClass('active');">
+                </div>
             </div>
         </div>
-        <div class="taskbar">
-            <div class="icons">
-                <div class="button start"></div>
-                <div class="button search"></div>
-                <div class="button explorer"></div>
-                <div class="button cmd active"></div>
-            </div>
-            <div class="ac">
-                <div class="icons">
-                    <div class="item">
-                        <div class="icon battery"></div>
-                    </div>
-                    <div class="item">
-                        <div class="icon internet"></div>
-                    </div>
-                    <div class="item">
-                        <div class="icon volume"></div>
-                    </div>
-                </div>
-                <div class="item clock" id="time">1:16 PM</div>
-                <div class="item notifs"></div>
-                <div class="peek"></div>
-            </div>
+        <div id="terminal">
+            <p></p>
         </div>
         <script>
-            var updateClock = () => {
-                var today = new Date();
-                var ap = (today.getHours() < 12) ? "A" : "P";
-                var h = today.getHours() % 12;
-                var m = ("0"+today.getMinutes()).slice(-2);
-                document.getElementById('time').innerHTML = `${h}:${m} ${ap}M`;
+            const term = new Terminal({
+                fontFamily: "Consolas",
+                fontSize: 14,
+                theme: {
+                    foreground: "#C8C8C8"
+                },
+                cursorBlink: true
+            });
+            const fitta = new FitAddon();
+            term.loadAddon(fitta);
+            term.open(document.getElementById('terminal'));
+            fitta.fit();
+            
+            function prompt() {
+                data = "";
+                term.write('\r\nC:\\>');
             }
-            setInterval(updateClock, 100);
-            updateClock();
-            (() => {
-                $("#loading").remove();
-            })();
+
+            term.prompt = () => {
+                prompt();
+            };
+
+            function piss() {
+                term.clear();
+                for(let i = 0; i < 4; i++)
+                    term.write("\b \b");
+                term.writeln("Microsoft Windows [Version 10.0.19041.450]");
+                term.writeln("(c) 2020 Microsoft Corporation. All rights reserved.");
+                term.prompt();
+            }
+
+            piss();
+
+            var data = "";
+
+            function runFakeTerminal() {
+                if (term._initialized) {
+                    return;
+                }
+
+                term._initialized = true;
+
+                term.onData(e => {
+                    switch (e) {
+                        case '\r': // Enter
+                            try {
+                                result = eval.call(window,data);
+                                if(typeof result == "undefined") result = "undefined";
+                                term.writeln("");
+                                term.writeln(result.toString());
+                            } catch(e) {
+                                term.writeln("");
+
+                                var err = e.stack.toString().split("\n");
+                                for(var i = 0; i < err.length; i++) {
+                                    term.writeln("\033[91m" + err[i] + "\033[0m");
+                                }
+                            }
+                        case '\u0003': // Ctrl+C
+                            prompt();
+                            break;
+                        case '\u007F': // Backspace (DEL)
+                            // Do not delete the prompt
+                            if (term._core.buffer.x > 4) {
+                                term.write('\b \b');
+                                data = data.substr(0, data.length - 1);
+                            }
+                            break;
+                        case '[A': case '[B': case '[C': case '[D': case '[E': case '[F': case '[G': case '[H': case '[I': case '[J': case '[K': case '[L': case '[M': case '[N': case '[O': case '[P': case '[Q': case '[R': case '[S': case '[T': case '[U': case '[V': case '[W': case '[X': case '[Y': case '[Z':
+                            break;
+                        default:
+                            if(e !== e.replace(/[^\x20-\x7E]/g, ''))
+                                break;
+                            term.write(e);
+                            data += e;
+                    }
+                });
+            }
+
+            runFakeTerminal();
         </script>
-    </body>
+    </div>
+    <div class="taskbar">
+        <div class="icons">
+            <div class="button start"></div>
+            <div class="button search"></div>
+            <div class="button explorer"></div>
+            <div class="button cmd active" onclick="piss();$('.window').show();$(this).addClass('active');"></div>
+        </div>
+        <div class="ac">
+            <div class="icons">
+                <div class="item">
+                    <div class="icon battery"></div>
+                </div>
+                <div class="item">
+                    <div class="icon internet"></div>
+                </div>
+                <div class="item">
+                    <div class="icon volume"></div>
+                </div>
+            </div>
+            <div class="item clock" id="time">1:16 PM</div>
+            <div class="item notifs"></div>
+            <div class="peek"></div>
+        </div>
+    </div>
+    <script>
+        var updateClock = () => {
+            var today = new Date();
+            var ap = (today.getHours() < 12) ? "A" : "P";
+            var h = today.getHours() % 12;
+            var m = ("0" + today.getMinutes()).slice(-2);
+            document.getElementById('time').innerHTML = `${h}:${m} ${ap}M`;
+        }
+        setInterval(updateClock, 100);
+        updateClock();
+        (() => {
+            $("#loading").remove();
+        })();
+    </script>
+</body>
+
 </html>
